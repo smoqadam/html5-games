@@ -9,7 +9,7 @@
   </style>
 </head>
 <body>
-  <canvas id="myCanvas" width="480" height="320"></canvas>
+  <canvas id="myCanvas" width="500" height="350"></canvas>
   <script>
   var canvas = document.getElementById('myCanvas');
   var context = canvas.getContext('2d');
@@ -55,16 +55,16 @@
     }
   }
   function initSnake(x,y){
-    if(!x) x = 225;
+    if(!x) x = 230;
     if(!y) y = 150;
     for (var i = 0; i < snakeLength; i++) {
       snakes.push({
         x     : x - (speed *i),
         y     : y,
         dir   : 'right',
-        speed : 0,
         width : 10,
-        height : 10
+        height : 10,
+        color : 'blue'
       });
     }
   }
@@ -107,65 +107,42 @@
       context.beginPath();
       // context.arc(snake.x, snake.y,5 ,0,Math.PI * 2 );
       context.rect(snake.x , snake.y , snake.width , snake.height);
-      context.fillStyle = "blue";
+      context.fillStyle = snake.color;
       context.fill();
       context.closePath();
 
-      //
-      // if(
-      //   (head.x < snake.x + 10) &&// || head.x + 10 <= snake.x || head.x + 10 <= snake.x +10 || head.x <= snake.x +10) &&
-      //   (head.x +10  > snake.x) && // || head.x + 10 >= snake.x || head.x + 10 >= snake.x +10 || head.x >= snake.x +10) &&
-      //   (head.y < snake.y + 10 ) && // || head.y + 10 >= snake.y || head.y + 10 >= snake.y +10 || head.y >= snake.y +10) &&
-      //   (head.y + 10 > snake.y))// || head.y + 10 <= snake.y || head.y + 10 <= snake.y +10 || head.y <= snake.y +10) )
-      //   {
-      //     console.log(snake);
-      //     console.log(head);
-      //     console.log(i);
-      //     console.log('FUUUUUUUUUUUUCK');
-      //   }
-
-
+      if(snake != snakes[0] && isCollide(snake, snakes[0] )){
+        alert("you fucked!!!");
+        gameSpeed = -1;
+      }
 
       if(isCollide(head,food)){
-        food.x = rnd(10, canvas.width);
-        food.y = rnd(10, canvas.height);
+        food.x = rnd(10, canvas.width  - 10);
+        food.y = rnd(10, canvas.height - 10);
         gameSpeed -= 1 ;
         if(gameSpeed == 0){
-          alert("YOU WIN");
+          gameSpeed = 1;
         }
         snakes.push({
           x     : snake.x,//- (11 *i),
           y     : snake.y,
           dir   : snake.dir,
-          speed : 0
+          width : speed,
+          height : speed,
+          color : "blue"
         });
       }
     }
     snakes.reverse();
   }
 
-function collide(a, b) {
-  if(a.x > b.)
-}
+function isCollide(a,b) {
 
-  function eatFood(snake) {
-    if(
-      (snake.x >= food.x || snake.x + speed >= food.x || snake.x >= food.x +speed || snake.x +speed >= food.x + speed) &&
-      (snake.x <= food.x || snake.x + speed <= food.x || snake.x <= food.x +speed || snake.x +speed <= food.x + speed)  &&
-      (snake.y >= food.y || snake.y + speed >= food.y || snake.y >= food.y +speed || snake.y +speed >= food.y + speed)  &&
-      (snake.y <= food.y || snake.y + speed <= food.y || snake.y <= food.y +speed || snake.y +speed <= food.y + speed) ){
-    return true;
-  }
-//
-//   return false;
-// }
-
-function isCollide(a, b) {
-    return !(
-        ((a.y + a.height) < (b.y)) ||
-        (a.y > (b.y + b.height)) ||
-        ((a.x + a.width) < b.x) ||
-        (a.x > (b.x + b.width))
+    return (
+      (b.x == a.x) &&
+      // (b.x <= (a.x + 10)) &&
+      (b.y == a.y)
+      // (b.y <= (a.y + 10))
     );
 }
 

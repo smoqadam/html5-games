@@ -111,7 +111,7 @@
       context.fill();
       context.closePath();
 
-      if(snake != snakes[0] && isCollide(snake, snakes[0] )){
+      if(snake != head && isCollide(snake, snakes[snakes.length - 1])){
         alert("you fucked!!!");
         gameSpeed = -1;
       }
@@ -140,9 +140,7 @@ function isCollide(a,b) {
 
     return (
       (b.x == a.x) &&
-      // (b.x <= (a.x + 10)) &&
       (b.y == a.y)
-      // (b.y <= (a.y + 10))
     );
 }
 
